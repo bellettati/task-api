@@ -1,6 +1,8 @@
 import http from 'node:http'
+import taskRoutes from './routes/taskRouter.js'
 
 const server = http.createServer(async (req, res) => {
+	const {method, url} = req
 	const buffers = []
 	res.setHeader('Content-type', 'application/json')
 	for await(const chunks of req) {
@@ -12,7 +14,12 @@ const server = http.createServer(async (req, res) => {
 		req.body = null
 	}
 
-	return res.end(JSON.stringify(req.body))
+	const route = taskRoutes.find(route => route.method === method && route.path === url)
+	if(route) {
+		return route.handler(req, res)
+	}
+
+	return res.writeHead(404).end('NOT_FOUND')
 })
 
 const PORT = 3333;

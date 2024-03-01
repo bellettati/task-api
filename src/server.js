@@ -1,7 +1,18 @@
 import http from 'node:http'
 
-const server = http.createServer(async(req, res) => {
-	return res.end(`received request successfully, request url: ${req.url}`)
+const server = http.createServer(async (req, res) => {
+	const buffers = []
+	res.setHeader('Content-type', 'application/json')
+	for await(const chunks of req) {
+		buffers.push(chunks)
+	}
+	try {
+		req.body = JSON.parse(Buffer.concat(buffers).toString())
+	} catch {
+		req.body = null
+	}
+
+	return res.end(JSON.stringify(req.body))
 })
 
 const PORT = 3333;

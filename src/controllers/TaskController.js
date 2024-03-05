@@ -18,4 +18,24 @@ export default class TaskController {
 		const createdTask = dataBase.create({title, description})
 		return res.end(JSON.stringify(createdTask)) 
 	}
+
+	updateById(req, res) {
+		const {id} = req.params
+		try {
+			dataBase.updateById({id, data: req.body})
+		} catch(error) {
+			return res.writeHead(404).end(JSON.stringify({message: error.message}))
+		}
+		return res.writeHead(204).end()
+	}
+
+	deleteById(req, res) {
+		const {id} = req.params
+		try {
+			dataBase.deleteById(id)
+		} catch(error) {
+			return res.writeHead(404).end(JSON.stringify({message: error.message}))
+		}
+		return res.writeHead(204).end()
+	}
 }

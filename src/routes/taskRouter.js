@@ -14,4 +14,14 @@ export default [
 		path: buildPath('/tasks'),
 		handler: (req, res) => controller.create(req, res)
 	},
+	{
+		method: 'PUT',
+		path: buildPath('/tasks/:id'),
+		handler: (req, res) => controller.updateById(req, res)
+	},
+	{
+		method: 'DELETE',
+		path: buildPath('/tasks/:id'),
+		handler: (req, res) => controller.deleteById(req, res)
+	},
 ]

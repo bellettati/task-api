@@ -1,5 +1,6 @@
 import http from 'node:http'
 import taskRoutes from './routes/taskRouter.js'
+import extractQueryParams from './helpers/extractQueryParams.js'
 
 const server = http.createServer(async (req, res) => {
 	const {method, url} = req
@@ -17,8 +18,9 @@ const server = http.createServer(async (req, res) => {
 	const route = taskRoutes.find(route => route.method === method && route.path.test(url))
 	if(route) {
 		const routeParams = url.match(route.path)
-		const {...params} = routeParams.groups
+		const {query, ...params} = routeParams.groups
 		req.params = params
+		req.query = query ? extractQueryParams(query) : {}
 		return route.handler(req, res)
 	}
 

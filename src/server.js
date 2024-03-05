@@ -14,8 +14,10 @@ const server = http.createServer(async (req, res) => {
 		req.body = null
 	}
 
-	const route = taskRoutes.find(route => route.method === method && route.path === url)
+	const route = taskRoutes.find(route => route.method === method && route.path.test(url))
 	if(route) {
+		const params = url.match(route.path)
+		console.log(params)
 		return route.handler(req, res)
 	}
 

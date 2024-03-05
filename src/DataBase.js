@@ -3,7 +3,15 @@ import {randomUUID} from 'node:crypto'
 export default class DataBase {
 	data = []
 
-	selectAll() {
+
+	select(search) {
+		if(search) {
+			return this.data.filter((task) => 
+				Object.entries(search).some(([key, value]) => 
+					task[key].toLowerCase().includes(value.toLowerCase())
+				)
+			)
+		}
 		return this.data
 	}
 

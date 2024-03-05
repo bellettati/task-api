@@ -7,7 +7,7 @@ export default [
 	{
 		method: 'GET',
 		path: buildPath('/tasks'),
-		handler: (req, res) => controller.selectAll(req, res)
+		handler: (req, res) => controller.select(req, res)
 	},
 	{
 		method: 'POST',

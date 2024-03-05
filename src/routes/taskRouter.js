@@ -24,4 +24,9 @@ export default [
 		path: buildPath('/tasks/:id'),
 		handler: (req, res) => controller.deleteById(req, res)
 	},
+	{
+		method: 'PATCH',
+		path: buildPath('/tasks/:id/completed'),
+		handler: (req, res) => controller.setTaskCompletedDateById(req, res)
+	},
 ]

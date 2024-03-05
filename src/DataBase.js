@@ -1,7 +1,16 @@
 import {randomUUID} from 'node:crypto'
 
 export default class DataBase {
-	data = []
+	data = [
+		{
+			"id": "96a06522-d33d-4084-887f-b0fa5f15c885",
+			"title": "Make potatoes",
+			"description": "description",
+			"completedAt": null,
+			"createdAt": "2024-03-05T20:33:20.128Z",
+			"updatedAt": "2024-03-05T20:33:20.128Z"
+		}
+	]
 
 	select(search) {
 		if(search) {
@@ -12,6 +21,14 @@ export default class DataBase {
 			)
 		}
 		return this.data
+	}
+
+	selectById(id) {
+		const task = this.data.find(task => task.id === id)
+		if(!task) {
+			throw new Error('Task not found')
+		}
+		return task
 	}
 
 	create({title, description}) {
@@ -30,11 +47,13 @@ export default class DataBase {
 	}
 
 	updateById({id, data}) {
+		console.log('is beeing updated')
 		const taskIndex = this.data.findIndex(task => task.id === id)
 		if(taskIndex === -1) {
+			console.log('task not found')
 			throw new Error('Task not found')
 		}
-		const validKeys = new Set(['title', 'description'])
+		const validKeys = new Set(['title', 'description', 'completedAt'])
 		const hasInavlidField = !Object.keys(data).every(key => validKeys.has(key)) 
 		if(hasInavlidField) {
 			throw new Error('Invalid field')

@@ -4,7 +4,6 @@ import fs from 'node:fs'
 fs.createReadStream('./tasks.csv')
     .pipe(csv())
     .on('data', ({ title, description }) => {
-        console.log({ title, description })
         fetch('http://localhost:3333/tasks', {
             method: 'POST',
             body: JSON.stringify({ title, description }),
